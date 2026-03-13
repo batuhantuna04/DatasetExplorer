@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+        <h1>Dataset Preview</h1>
+
+    <h2>Shape</h2>
+    <p>Rows: {{ result.df_shape[0] }}</p>
+    <p>Columns: {{ result.df_shape[1] }}</p>
+
+    <h2>Head</h2>
+    <div>
+        {{ result.head | safe }}
+    </div>
+
+    <h2>Tail</h2>
+    <div>
+        {{ result.tail | safe }}
+    </div>
+
+    <h2>Data Types</h2>
+    <pre>{{ result.dtypes }}</pre>
+
+    <h2>Duplicated Rows</h2>
+    <p>{{ result.duplicated }}</p>
+
+    <h2>Missing Values</h2>
+    <pre>{{ result.isnull }}</pre>
+
+</body>
+</html>

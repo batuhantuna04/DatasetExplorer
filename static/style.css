@@ -1,14 +1,57 @@
 body{
-    margin: 0;
-    padding: 0;
-    background-color: brown;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f6f8;
+    margin:0;
+    padding:40px;
 }
-h2{
-    font-weight: bold;
-    color: aqua;
+
+.container{
+    max-width:1200px;
+    margin:auto;
 }
-#butondur{
-    border-radius: 40px;
-    background-color: bisque;
-    color: aquamarine;
+
+h1{
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:25px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.stats{
+    display:flex;
+    gap:20px;
+}
+
+.stat-box{
+    background:#ffffff;
+    padding:15px 20px;
+    border-radius:8px;
+    box-shadow:0 1px 6px rgba(0,0,0,0.05);
+}
+
+table{
+    border-collapse:collapse;
+    width:100%;
+    margin-top:10px;
+}
+
+table th{
+    background:#f0f2f5;
+}
+
+table th, table td{
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:left;
+}
+
+pre{
+    background:#f7f7f7;
+    padding:15px;
+    border-radius:8px;
 }

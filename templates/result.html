@@ -4,32 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-        <h1>Dataset Preview</h1>
+    <div class="container">
 
-    <h2>Shape</h2>
-    <p>Rows: {{ result.df_shape[0] }}</p>
-    <p>Columns: {{ result.df_shape[1] }}</p>
+<h1>Dataset Analysis</h1>
 
-    <h2>Head</h2>
-    <div>
-        {{ result.head | safe }}
+<div class="stats">
+    <div class="stat-box">
+        <b>Rows</b><br>
+        {{ result.df_shape[0] }}
     </div>
 
-    <h2>Tail</h2>
-    <div>
-        {{ result.tail | safe }}
+    <div class="stat-box">
+        <b>Columns</b><br>
+        {{ result.df_shape[1] }}
     </div>
 
-    <h2>Data Types</h2>
-    <pre>{{ result.dtypes }}</pre>
+    <div class="stat-box">
+        <b>Duplicated</b><br>
+        {{ result.duplicated }}
+    </div>
+</div>
 
-    <h2>Duplicated Rows</h2>
-    <p>{{ result.duplicated }}</p>
+<div class="card">
+<h2>Dataset Head</h2>
+{{ result.head | safe }}
+</div>
 
-    <h2>Missing Values</h2>
-    <pre>{{ result.isnull }}</pre>
+<div class="card">
+<h2>Dataset Tail</h2>
+{{ result.tail | safe }}
+</div>
+
+<div class="card">
+<h2>Data Types</h2>
+<pre>{{ result.dtypes }}</pre>
+</div>
+
+<div class="card">
+<h2>Missing Values</h2>
+<pre>{{ result.isnull }}</pre>
+</div>
+
+</div>
+
 
 </body>
 </html>

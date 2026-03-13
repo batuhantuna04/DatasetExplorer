@@ -1,0 +1,14 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: brown;
+}
+h2{
+    font-weight: bold;
+    color: aqua;
+}
+#butondur{
+    border-radius: 40px;
+    background-color: bisque;
+    color: aquamarine;
+}

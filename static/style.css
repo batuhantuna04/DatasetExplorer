@@ -22,9 +22,12 @@ h1{
     box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
 
+/* stats kısmı */
+
 .stats{
     display:flex;
     gap:20px;
+    flex-wrap:wrap;
 }
 
 .stat-box{
@@ -34,9 +37,19 @@ h1{
     box-shadow:0 1px 6px rgba(0,0,0,0.05);
 }
 
+/* tablo wrapper */
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+/* tablo ayarları */
+
 table{
     border-collapse:collapse;
     width:100%;
+    min-width:700px;
     margin-top:10px;
 }
 
@@ -48,10 +61,28 @@ table th, table td{
     border:1px solid #ddd;
     padding:8px;
     text-align:left;
+    white-space:nowrap;
 }
+
+/* uzun text kırılması */
+
+table td{
+    max-width:250px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* text alanları */
 
 pre{
     background:#f7f7f7;
     padding:15px;
     border-radius:8px;
+    overflow-x:auto;
+}
+
+table th{
+    background:#f0f2f5;
+    position:sticky;
+    top:0;
 }

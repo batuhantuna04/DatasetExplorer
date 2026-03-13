@@ -13,7 +13,7 @@ def upload():
     file=request.files["file"]
     path=os.path.join("uploads","data.csv")
     file.save(path)
-    result=analyzer.analyze_csv()
+    result=analyzer.analyze_csv(path)
     return render_template("result.html",result=result)
 
 

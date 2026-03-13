@@ -1,11 +1,11 @@
 import pandas as pd
 import os
 
-path=os.path.join("uploads","data.csv")
-df=pd.read_csv(path)
 
 
-def analyze_csv():
+
+def analyze_csv(path):
+    df=pd.read_csv(path)
     return {
             "df_shape": df.shape,
         "head": df.head().to_html(),

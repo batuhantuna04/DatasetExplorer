@@ -3,61 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
+    <title>Dataset Analysis Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
 
-<h1>Dataset Analysis</h1>
+        <div class="page-header">
+            <h1>Dataset Analysis</h1>
+            <p class="subtitle">Overview of your uploaded CSV file</p>
+        </div>
 
-<div class="stats">
-    <div class="stat-box">
-        <b>Rows</b><br>
-        {{ result.df_shape[0] }}
+        <div class="stats">
+            <div class="stat-box">
+                <span class="stat-title">Rows</span>
+                <div class="stat-value">{{ result.df_shape[0] }}</div>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-title">Columns</span>
+                <div class="stat-value">{{ result.df_shape[1] }}</div>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-title">Null Count</span>
+                <div class="stat-value">{{ result.quality.null_count }}</div>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-title">Duplicate Count</span>
+                <div class="stat-value">{{ result.duplicate.duplicate_count }}</div>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <h2>Duplicate Control</h2>
+                <div class="info-list">
+                    <p><strong>Total Rows:</strong> {{ result.duplicate.total_row }}</p>
+                    <p><strong>Duplicate Count:</strong> {{ result.duplicate.duplicate_count }}</p>
+                    <p><strong>Duplicate Ratio:</strong> %{{ result.duplicate.duplicate_ratio }}</p>
+                    <p><strong>Status:</strong> {{ result.duplicate.status }}</p>
+                </div>
+            </div>
+
+            <div class="card quality-card">
+                <h2>Data Quality Score</h2>
+                <div class="quality-score">{{ result.quality.score }}</div>
+
+                <p>
+                    <strong>Label:</strong>
+                    <span class="
+                        label
+                        {% if result.quality.label == 'Excellent' %}label-excellent{% endif %}
+                        {% if result.quality.label == 'Good' %}label-good{% endif %}
+                        {% if result.quality.label == 'Medium' %}label-medium{% endif %}
+                        {% if result.quality.label == 'Poor' %}label-poor{% endif %}
+                    ">
+                        {{ result.quality.label }}
+                    </span>
+                </p>
+
+                <div class="info-list">
+                    <p><strong>Null Count:</strong> {{ result.quality.null_count }}</p>
+                    <p><strong>Null Ratio:</strong> %{{ result.quality.null_ratio }}</p>
+                    <p><strong>Null Penalty:</strong> {{ result.quality.null_score }}</p>
+                    <p><strong>Duplicate Penalty:</strong> {{ result.quality.duplicate_score }}</p>
+                    <p><strong>Empty Column Count:</strong> {{ result.quality.empty_column_count }}</p>
+                    <p><strong>Empty Penalty:</strong> {{ result.quality.empty_score }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Dataset Head</h2>
+            <div class="table-wrapper">
+                {{ result.head | safe }}
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Dataset Tail</h2>
+            <div class="table-wrapper">
+                {{ result.tail | safe }}
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Data Types</h2>
+            <pre>{{ result.dtypes }}</pre>
+        </div>
+
+        <div class="card">
+            <h2>Missing Values</h2>
+            <pre>{{ result.isnull }}</pre>
+        </div>
+
+        <div class="back-area">
+            <a href="/" class="back-button">Upload Another File</a>
+        </div>
+
     </div>
-
-    <div class="stat-box">
-        <b>Columns</b><br>
-        {{ result.df_shape[1] }}
-    </div>
-
-    <div class="stat-box">
-        <b>Duplicated</b><br>
-        {{ result.duplicated }}
-    </div>
-</div>
-
-<div class="card">
-<h2>Dataset Head</h2>
-
-<div class="table-wrapper">
-{{ result.head | safe }}
-</div>
-
-</div>
-
-<div class="card">
-<h2>Dataset Tail</h2>
-
-<div class="table-wrapper">
-{{ result.tail | safe }}
-</div>
-
-</div>
-
-<div class="card">
-<h2>Data Types</h2>
-<pre>{{ result.dtypes }}</pre>
-</div>
-
-<div class="card">
-<h2>Missing Values</h2>
-<pre>{{ result.isnull }}</pre>
-</div>
-
-</div>
-
-
 </body>
 </html>

@@ -34,6 +34,10 @@
                 <span class="stat-title">Duplicate Count</span>
                 <div class="stat-value">{{ result.duplicate.duplicate_count }}</div>
             </div>
+            <div class="stat-box">
+                <span class="stat-title">Chart Suggestion</span>
+                <div class="stat-value">{{result.suggestion.suggestions}}</div>
+            </div>
         </div>
 
         <div class="card-grid">
@@ -89,15 +93,27 @@
             </div>
         </div>
 
-        <div class="card">
-            <h2>Data Types</h2>
-            <pre>{{ result.dtypes }}</pre>
+    <div class="bottom-section">
+        <div class="box">
+            <h3>Missing Values</h3>
+            {% for row in result.isnull %}
+                <div class="mini-row">
+                    <span>{{ row["index"] }}</span>
+                    <span>{{ row["Missing Count"] }}</span>
+                </div>
+            {% endfor %}
         </div>
 
-        <div class="card">
-            <h2>Missing Values</h2>
-            <pre>{{ result.isnull }}</pre>
+        <div class="box">
+            <h3>Data Types</h3>
+            {% for row in result.dtypes %}
+                <div class="mini-row">
+                    <span>{{ row["index"] }}</span>
+                    <span>{{ row["Data Type"] }}</span>
+                </div>
+            {% endfor %}
         </div>
+    </div>
 
         <div class="back-area">
             <a href="/" class="back-button">Upload Another File</a>

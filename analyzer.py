@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 
 
@@ -7,15 +9,17 @@ def analyze_csv(path):
     df=pd.read_csv(path)
     duplicate=duplicate_info(df)
     quality=data_score(df)
+    suggest_chart=chart_suggestion(df)
 
     return {
             "df_shape": df.shape,
         "head": df.head().to_html(),
         "tail": df.tail().to_html(),
-        "dtypes": df.dtypes.to_string(),
+        "dtypes": df.dtypes.reset_index(name="Data Type").to_dict(orient="records"),
         "duplicate":duplicate,
-        "isnull": df.isnull().sum().to_string(),
-        "quality":quality
+        "isnull": df.isnull().sum().reset_index(name="Missing Count").to_dict(orient="records"),
+        "quality":quality,
+        "suggestion":suggest_chart
  
     }
 
@@ -103,3 +107,45 @@ def data_score(df):
         "empty_column_count": int(empty_column_count),
         "empty_score": round(empty_score, 2),
     }
+
+def chart_suggestion(df):
+    suggestions = []
+
+    numerical_cols = df.select_dtypes(include=["int64", "float64"]).columns
+    categorical_cols = df.select_dtypes(include=["object", "category"]).columns
+
+    # Numerical kolonlar
+    for col in numerical_cols:
+        suggestions.append({
+            "column": col,
+            "chart": "histogram"
+        })
+        suggestions.append({
+            "column": col,
+            "chart": "boxplot"
+        })
+
+    # Categorical kolonlar
+    for col in categorical_cols:
+        unique_count = df[col].nunique()
+
+        if unique_count <= 20:
+            suggestions.append({
+                "column": col,
+                "chart": "bar_chart"
+            })
+
+        if unique_count <= 10:
+            suggestions.append({
+                "column": col,
+                "chart": "pie_chart"
+            })
+
+    # Scatter (iki numeric)
+    if len(numerical_cols) >= 2:
+        suggestions.append({
+            "columns": list(numerical_cols[:2]),
+            "chart": "scatter_plot"
+        })
+    suggestions=suggestions[:4]
+    return {"suggestions":suggestions}

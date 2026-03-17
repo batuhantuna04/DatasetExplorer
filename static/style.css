@@ -311,3 +311,41 @@ pre{
 .back-button:hover{
     background: #1f2937;
 }
+.bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.box h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.mini-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 8px;
+    font-size: 12px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.mini-row span:first-child {
+    font-weight: 600;
+    color: #222;
+}
+
+.mini-row span:last-child {
+    color: #666;
+}

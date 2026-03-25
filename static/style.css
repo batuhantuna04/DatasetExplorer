@@ -1,49 +1,61 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
     background: linear-gradient(135deg, #eef2f7, #f8fafc);
     color: #1f2937;
     padding: 30px 20px;
+    min-height: 100vh;
 }
 
-.container{
+.container {
     max-width: 1250px;
     margin: 0 auto;
 }
 
-h1{
+/* ─── Başlık ─────────────────────────────────────── */
+h1 {
     font-size: 32px;
-    margin-bottom: 25px;
+    margin-bottom: 8px;
     color: #111827;
 }
 
-h2{
-    font-size: 22px;
+h2 {
+    font-size: 20px;
     margin-bottom: 15px;
     color: #1f2937;
 }
 
-h3{
-    font-size: 18px;
+h3 {
+    font-size: 15px;
     margin-bottom: 12px;
     color: #1f2937;
+    font-weight: 700;
 }
 
-/* üst istatistik alanı */
-.stats{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+.page-header {
     margin-bottom: 30px;
 }
 
-/* küçük kutular */
-.stat-box{
+.subtitle {
+    margin-top: 8px;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+/* ─── Üst İstatistik Kutuları ────────────────────── */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.stat-box {
     background: #ffffff;
     border-radius: 16px;
     padding: 22px;
@@ -52,32 +64,30 @@ h3{
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.stat-box:hover{
+.stat-box:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
 }
 
-.stat-box b{
+.stat-title {
     display: block;
-    font-size: 14px;
+    font-size: 12px;
     color: #6b7280;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
+    font-weight: 600;
 }
 
-.stat-box p{
-    margin-bottom: 8px;
-    line-height: 1.5;
-    color: #374151;
+.stat-value {
+    font-size: 34px;
+    font-weight: bold;
+    color: #111827;
+    line-height: 1;
 }
 
-.stat-box p:last-child{
-    margin-bottom: 0;
-}
-
-/* genel kart alanı */
-.card{
+/* ─── Genel Kart ─────────────────────────────────── */
+.card {
     background: #ffffff;
     padding: 24px;
     border-radius: 18px;
@@ -86,266 +96,293 @@ h3{
     border: 1px solid #e5e7eb;
 }
 
-/* tablo dış kutu */
-.table-wrapper{
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-}
-
-/* tablo */
-table{
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 750px;
-    background: #ffffff;
-}
-
-table th{
-    background: #f3f4f6;
-    color: #111827;
-    font-weight: 700;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-
-table th,
-table td{
-    border-bottom: 1px solid #e5e7eb;
-    padding: 12px 14px;
-    text-align: left;
-    font-size: 14px;
-}
-
-table tr:nth-child(even){
-    background: #fafafa;
-}
-
-table tr:hover{
-    background: #f9fbff;
-}
-
-table td{
-    max-width: 240px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* pre alanları */
-pre{
-    background: #f9fafb;
-    color: #111827;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-    overflow-x: auto;
-    line-height: 1.6;
-    font-size: 14px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
-/* quality score kutusunu daha belirgin yapmak için */
-.stat-box.quality-box{
-    background: linear-gradient(135deg, #f8fafc, #eef6ff);
-    border: 1px solid #dbeafe;
-}
-
-/* kalite etiketi renkleri */
-.label{
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: bold;
-    margin-top: 6px;
-}
-
-.label-excellent{
-    background: #dcfce7;
-    color: #166534;
-}
-
-.label-good{
-    background: #dbeafe;
-    color: #1d4ed8;
-}
-
-.label-medium{
-    background: #fef3c7;
-    color: #b45309;
-}
-
-.label-poor{
-    background: #fee2e2;
-    color: #b91c1c;
-}
-
-/* mobil uyum */
-@media (max-width: 768px){
-    body{
-        padding: 20px 12px;
-    }
-
-    h1{
-        font-size: 26px;
-    }
-
-    h2{
-        font-size: 20px;
-    }
-
-    .card,
-    .stat-box{
-        padding: 18px;
-    }
-
-    table th,
-    table td{
-        font-size: 13px;
-        padding: 10px 12px;
-    }
-}
-
-.page-header{
-    margin-bottom: 30px;
-}
-
-.subtitle{
-    margin-top: 8px;
-    color: #6b7280;
-    font-size: 15px;
-}
-
-.stat-title{
-    display: block;
-    font-size: 14px;
-    color: #6b7280;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.stat-value{
-    font-size: 30px;
-    font-weight: bold;
-    color: #111827;
-}
-
-.card-grid{
+/* ─── Kart Grid (Duplicate ve Quality) ───────────── */
+.card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
     margin-bottom: 24px;
 }
 
-.info-list{
-    margin-top: 12px;
-}
-
-.info-list p{
-    margin-bottom: 10px;
-    line-height: 1.6;
-    color: #374151;
-}
-
-.quality-card{
+/* ─── Kalite Kartı ───────────────────────────────── */
+.quality-card {
     border: 1px solid #dbeafe;
     background: linear-gradient(135deg, #f8fbff, #eef6ff);
 }
 
-.quality-score{
-    font-size: 48px;
+.quality-score {
+    font-size: 52px;
     font-weight: bold;
-    margin: 10px 0 18px 0;
+    margin: 10px 0 16px 0;
     color: #111827;
+    line-height: 1;
 }
 
-.label{
+.info-list {
+    margin-top: 12px;
+}
+
+.info-list p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: #374151;
+    font-size: 14px;
+}
+
+.info-list p:last-child {
+    margin-bottom: 0;
+}
+
+/* ─── Kalite Etiketleri ──────────────────────────── */
+.label {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 5px 13px;
     border-radius: 999px;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 700;
     margin-left: 6px;
 }
 
-.label-excellent{
+.label-excellent {
     background: #dcfce7;
     color: #166534;
 }
 
-.label-good{
+.label-good {
     background: #dbeafe;
     color: #1d4ed8;
 }
 
-.label-medium{
+.label-medium {
     background: #fef3c7;
     color: #b45309;
 }
 
-.label-poor{
+.label-poor {
     background: #fee2e2;
     color: #b91c1c;
 }
 
-.back-area{
-    margin-top: 10px;
+/* ─── Chart Grid ─────────────────────────────────── */
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.chart-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 16px;
     text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.back-button{
-    display: inline-block;
-    text-decoration: none;
-    background: #111827;
-    color: white;
-    padding: 12px 20px;
+.chart-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+}
+
+.chart-box img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
     border-radius: 10px;
-    transition: 0.2s ease;
+    display: block;
+    margin: 0 auto;
 }
 
-.back-button:hover{
-    background: #1f2937;
+.chart-box p {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: capitalize;
 }
+
+/* ─── Tablo ──────────────────────────────────────── */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 750px;
+    background: #ffffff;
+}
+
+table th {
+    background: #f3f4f6;
+    color: #111827;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+table th,
+table td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+table tr:nth-child(even) {
+    background: #fafafa;
+}
+
+table tr:hover {
+    background: #f0f7ff;
+}
+
+table td {
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #374151;
+}
+
+/* ─── Alt Bölüm (Missing + Data Types) ──────────── */
 .bottom-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 24px;
+    gap: 20px;
+    margin-bottom: 24px;
 }
 
 .box {
-    background: #fff;
-    border-radius: 14px;
-    padding: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    max-height: 220px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e5e7eb;
+    max-height: 240px;
     overflow-y: auto;
 }
 
 .box h3 {
-    margin: 0 0 10px 0;
-    font-size: 14px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: #111827;
+    font-weight: 700;
 }
 
 .mini-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 7px 8px;
-    font-size: 12px;
-    border-bottom: 1px solid #f1f1f1;
+    padding: 8px 6px;
+    font-size: 13px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.mini-row:last-child {
+    border-bottom: none;
 }
 
 .mini-row span:first-child {
     font-weight: 600;
-    color: #222;
+    color: #1f2937;
 }
 
 .mini-row span:last-child {
-    color: #666;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+/* ─── Geri Butonu ────────────────────────────────── */
+.back-area {
+    margin-top: 10px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.back-button {
+    display: inline-block;
+    text-decoration: none;
+    background: #111827;
+    color: white;
+    padding: 13px 28px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+    background: #374151;
+    transform: translateY(-2px);
+}
+
+/* ─── Scrollbar (Webkit) ─────────────────────────── */
+.box::-webkit-scrollbar,
+.table-wrapper::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.box::-webkit-scrollbar-track,
+.table-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 999px;
+}
+
+.box::-webkit-scrollbar-thumb,
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+
+/* ─── Mobil ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .card,
+    .stat-box,
+    .box {
+        padding: 16px;
+    }
+
+    table th,
+    table td {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+
+    .bottom-section {
+        grid-template-columns: 1fr;
+    }
+
+    .quality-score {
+        font-size: 42px;
+    }
+
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
 }

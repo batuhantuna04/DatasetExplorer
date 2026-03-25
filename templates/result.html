@@ -34,9 +34,20 @@
                 <span class="stat-title">Duplicate Count</span>
                 <div class="stat-value">{{ result.duplicate.duplicate_count }}</div>
             </div>
-            <div class="stat-box">
-                <span class="stat-title">Chart Suggestion</span>
-                <div class="stat-value">{{result.suggestion.suggestions}}</div>
+        </div>
+
+        <div class="card">
+            <h2>Chart Suggestions</h2>
+            <div class="chart-grid">
+                {% for chart in result.chart %}
+                <div class="chart-box">
+                    <img src="data:image/png;base64,{{ chart.base64 }}" width="400">
+                    <p>
+                        {% if chart.get("column") %}{{ chart.column }} — {% endif %}
+                        {{ chart.type }}
+                    </p>
+                </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -93,27 +104,27 @@
             </div>
         </div>
 
-    <div class="bottom-section">
-        <div class="box">
-            <h3>Missing Values</h3>
-            {% for row in result.isnull %}
-                <div class="mini-row">
-                    <span>{{ row["index"] }}</span>
-                    <span>{{ row["Missing Count"] }}</span>
-                </div>
-            {% endfor %}
-        </div>
+        <div class="bottom-section">
+            <div class="box">
+                <h3>Missing Values</h3>
+                {% for row in result.isnull %}
+                    <div class="mini-row">
+                        <span>{{ row["index"] }}</span>
+                        <span>{{ row["Missing Count"] }}</span>
+                    </div>
+                {% endfor %}
+            </div>
 
-        <div class="box">
-            <h3>Data Types</h3>
-            {% for row in result.dtypes %}
-                <div class="mini-row">
-                    <span>{{ row["index"] }}</span>
-                    <span>{{ row["Data Type"] }}</span>
-                </div>
-            {% endfor %}
+            <div class="box">
+                <h3>Data Types</h3>
+                {% for row in result.dtypes %}
+                    <div class="mini-row">
+                        <span>{{ row["index"] }}</span>
+                        <span>{{ row["Data Type"] }}</span>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
         <div class="back-area">
             <a href="/" class="back-button">Upload Another File</a>

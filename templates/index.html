@@ -7,24 +7,19 @@
     <link rel="stylesheet" href="/static/styleindex.css">
 </head>
 <body>
-        <div class="hero">
-        <div class="overlay"></div>
 
+    <div class="hero">
+        <div class="overlay"></div>
         <div class="hero-content">
             <h1>Dataset Explorer</h1>
-            <p class="subtitle">
-                Upload your CSV file and instantly inspect dataset structure,
-                preview rows, detect missing values, and understand column types.
-            </p>
+            <p class="subtitle">Powerful insights from your data in seconds</p>
 
             <div class="upload-card">
                 <h2>Upload CSV File</h2>
-
                 <form action="result" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="file" accept=".csv" required>
+                    <input type="file" name="file" accept=".csv" required onchange="this.form.submit()">
                     <button type="submit">Analyze Dataset</button>
                 </form>
-
                 <p class="info-text">Supported format: .csv</p>
             </div>
         </div>
@@ -32,25 +27,18 @@
 
     <section class="features">
         <div class="feature-box">
-            <h3>Dataset Preview</h3>
-            <p>See the first and last rows of your uploaded dataset.</p>
+            <h3>Dataset Analysis</h3>
+            <p>Get instant insights with comprehensive statistical analysis of your data</p>
         </div>
-
         <div class="feature-box">
-            <h3>Column Types</h3>
-            <p>Quickly inspect data types for every column.</p>
+            <h3>Quality Score</h3>
+            <p>Automated quality assessment to identify data completeness and reliability</p>
         </div>
-
         <div class="feature-box">
-            <h3>Missing Values</h3>
-            <p>Understand null and missing values before analysis.</p>
-        </div>
-
-        <div class="feature-box">
-            <h3>Duplicate Check</h3>
-            <p>Find repeated rows and improve dataset quality.</p>
+            <h3>Visual Charts</h3>
+            <p>Beautiful visualizations showing distributions, patterns, and missing values</p>
         </div>
     </section>
-        
+
 </body>
 </html>

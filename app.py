@@ -8,13 +8,21 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-@app.route("/result",methods=["POST"])
+@app.route("/result", methods=["POST"])
 def upload():
-    file=request.files["file"]
-    path=os.path.join("uploads","data.csv")
+    file = request.files.get("file")
+
+    if not file or file.filename == "":
+        return "Dosya seçilmedi", 400
+
+    os.makedirs("uploads", exist_ok=True)
+
+    path = os.path.join("uploads", "data.csv")
     file.save(path)
-    result=analyzer.analyze_csv(path)
-    return render_template("result.html",result=result)
+
+    result = analyzer.analyze_csv(path)
+
+    return render_template("result.html", result=result)
 
 
 if __name__ == "__main__":

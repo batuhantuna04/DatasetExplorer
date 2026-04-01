@@ -110,39 +110,26 @@ def data_score(df):
 
 
 def chart_suggestion(df):
+    """
+    Her sütun için en uygun 1 chart tipini seçer.
+    Numerik -> histogram (dağılımı anlamak için en iyi)
+    Kategorik (<=20 unique) -> bar_chart
+    Kategorik (>20 unique) -> atla (çok fazla kategori, görsel anlamsız)
+    """
     suggestions = []
 
-    numerical_cols = df.select_dtypes(include=["int64", "float64"]).columns.tolist()
-    categorical_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
+    for col in df.columns:
+        dtype = df[col].dtype
 
-    # Slot 1: ilk numerik -> histogram
-    if len(numerical_cols) >= 1:
-        suggestions.append({"column": numerical_cols[0], "chart": "histogram"})
+        if dtype in ["int64", "float64"]:
+            suggestions.append({"column": col, "chart": "histogram"})
 
-    # Slot 2: ilk numerik -> boxplot
-    if len(numerical_cols) >= 1:
-        suggestions.append({"column": numerical_cols[0], "chart": "boxplot"})
+        elif dtype in ["object", "category"]:
+            unique_count = df[col].nunique()
+            if unique_count <= 20:
+                suggestions.append({"column": col, "chart": "bar_chart"})
+            # >20 unique: skip (çok kalabalık, anlamsız)
 
-    # Slot 3: scatter (2 numerik varsa) yoksa ikinci numerik histogram
-    if len(numerical_cols) >= 2:
-        suggestions.append({"columns": numerical_cols[:2], "chart": "scatter_plot"})
-    elif len(numerical_cols) >= 1:
-        suggestions.append({"column": numerical_cols[0], "chart": "histogram"})
-
-    # Slot 4: kategorik bar chart varsa, yoksa ikinci numerik boxplot
-    filled = False
-    for col in categorical_cols:
-        if df[col].nunique() <= 20:
-            suggestions.append({"column": col, "chart": "bar_chart"})
-            filled = True
-            break
-    if not filled:
-        if len(numerical_cols) >= 2:
-            suggestions.append({"column": numerical_cols[1], "chart": "boxplot"})
-        elif len(numerical_cols) >= 1:
-            suggestions.append({"column": numerical_cols[0], "chart": "histogram"})
-
-    suggestions = suggestions[:4]
     return {"suggestions": suggestions}
 
 
@@ -156,30 +143,31 @@ def generate_charts(df, suggestions):
         try:
             if chart_type == "histogram":
                 col = suggestion["column"]
-                sns.histplot(df[col].dropna(), kde=True)
+                sns.histplot(df[col].dropna(), kde=True, color="#2196f3")
 
             elif chart_type == "boxplot":
                 col = suggestion["column"]
-                sns.boxplot(x=df[col])
+                sns.boxplot(x=df[col], color="#2196f3")
 
             elif chart_type == "bar_chart":
                 col = suggestion["column"]
-                df[col].value_counts().plot(kind="bar")
+                df[col].value_counts().plot(kind="bar", color="#2196f3")
+                plt.xticks(rotation=45, ha="right")
 
             elif chart_type == "pie_chart":
                 col = suggestion["column"]
-                df[col].value_counts().plot(kind="pie")
+                df[col].value_counts().plot(kind="pie", autopct="%1.1f%%")
 
             elif chart_type == "scatter_plot":
                 x = suggestion["columns"][0]
                 y = suggestion["columns"][1]
-                sns.scatterplot(x=df[x], y=df[y])
+                sns.scatterplot(x=df[x], y=df[y], color="#2196f3")
 
-            plt.title(chart_type)
+            plt.title(f"{suggestion.get('column', '')} — {chart_type}", fontsize=13)
+            plt.tight_layout()
 
-            # Diske kaydetmek yerine base64'e çevir
             buf = io.BytesIO()
-            plt.savefig(buf, format="png", bbox_inches="tight")
+            plt.savefig(buf, format="png", bbox_inches="tight", dpi=110)
             plt.close()
             buf.seek(0)
             img_base64 = base64.b64encode(buf.read()).decode("utf-8")
@@ -187,13 +175,9 @@ def generate_charts(df, suggestions):
 
             chart_entry = {
                 "base64": img_base64,
-                "type": chart_type
+                "type": chart_type,
+                "column": suggestion.get("column", " vs ".join(suggestion.get("columns", [])))
             }
-            if "column" in suggestion:
-                chart_entry["column"] = suggestion["column"]
-            elif "columns" in suggestion:
-                chart_entry["column"] = " vs ".join(suggestion["columns"])
-
             charts.append(chart_entry)
 
         except Exception as e:

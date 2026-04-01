@@ -3,133 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dataset Analysis Result</title>
+    <title>Dataset Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
+<div class="container">
 
-        <div class="page-header">
+    <!-- HEADER -->
+    <div class="page-header">
+        <div class="header-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="12" width="4" height="9" rx="1"/>
+                <rect x="10" y="7" width="4" height="14" rx="1"/>
+                <rect x="17" y="3" width="4" height="18" rx="1"/>
+            </svg>
+        </div>
+        <div>
             <h1>Dataset Analysis</h1>
             <p class="subtitle">Overview of your uploaded CSV file</p>
         </div>
-
-        <div class="stats">
-            <div class="stat-box">
-                <span class="stat-title">Rows</span>
-                <div class="stat-value">{{ result.df_shape[0] }}</div>
-            </div>
-
-            <div class="stat-box">
-                <span class="stat-title">Columns</span>
-                <div class="stat-value">{{ result.df_shape[1] }}</div>
-            </div>
-
-            <div class="stat-box">
-                <span class="stat-title">Null Count</span>
-                <div class="stat-value">{{ result.quality.null_count }}</div>
-            </div>
-
-            <div class="stat-box">
-                <span class="stat-title">Duplicate Count</span>
-                <div class="stat-value">{{ result.duplicate.duplicate_count }}</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Chart Suggestions</h2>
-            <div class="chart-grid">
-                {% for chart in result.chart %}
-                <div class="chart-box">
-                    <img src="data:image/png;base64,{{ chart.base64 }}" width="400">
-                    <p>
-                        {% if chart.get("column") %}{{ chart.column }} — {% endif %}
-                        {{ chart.type }}
-                    </p>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="card-grid">
-            <div class="card">
-                <h2>Duplicate Control</h2>
-                <div class="info-list">
-                    <p><strong>Total Rows:</strong> {{ result.duplicate.total_row }}</p>
-                    <p><strong>Duplicate Count:</strong> {{ result.duplicate.duplicate_count }}</p>
-                    <p><strong>Duplicate Ratio:</strong> %{{ result.duplicate.duplicate_ratio }}</p>
-                    <p><strong>Status:</strong> {{ result.duplicate.status }}</p>
-                </div>
-            </div>
-
-            <div class="card quality-card">
-                <h2>Data Quality Score</h2>
-                <div class="quality-score">{{ result.quality.score }}</div>
-
-                <p>
-                    <strong>Label:</strong>
-                    <span class="
-                        label
-                        {% if result.quality.label == 'Excellent' %}label-excellent{% endif %}
-                        {% if result.quality.label == 'Good' %}label-good{% endif %}
-                        {% if result.quality.label == 'Medium' %}label-medium{% endif %}
-                        {% if result.quality.label == 'Poor' %}label-poor{% endif %}
-                    ">
-                        {{ result.quality.label }}
-                    </span>
-                </p>
-
-                <div class="info-list">
-                    <p><strong>Null Count:</strong> {{ result.quality.null_count }}</p>
-                    <p><strong>Null Ratio:</strong> %{{ result.quality.null_ratio }}</p>
-                    <p><strong>Null Penalty:</strong> {{ result.quality.null_score }}</p>
-                    <p><strong>Duplicate Penalty:</strong> {{ result.quality.duplicate_score }}</p>
-                    <p><strong>Empty Column Count:</strong> {{ result.quality.empty_column_count }}</p>
-                    <p><strong>Empty Penalty:</strong> {{ result.quality.empty_score }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Dataset Head</h2>
-            <div class="table-wrapper">
-                {{ result.head | safe }}
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Dataset Tail</h2>
-            <div class="table-wrapper">
-                {{ result.tail | safe }}
-            </div>
-        </div>
-
-        <div class="bottom-section">
-            <div class="box">
-                <h3>Missing Values</h3>
-                {% for row in result.isnull %}
-                    <div class="mini-row">
-                        <span>{{ row["index"] }}</span>
-                        <span>{{ row["Missing Count"] }}</span>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="box">
-                <h3>Data Types</h3>
-                {% for row in result.dtypes %}
-                    <div class="mini-row">
-                        <span>{{ row["index"] }}</span>
-                        <span>{{ row["Data Type"] }}</span>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="back-area">
-            <a href="/" class="back-button">Upload Another File</a>
-        </div>
-
     </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat-box">
+            <span class="stat-title">Rows</span>
+            <div class="stat-value">{{ result.df_shape[0] }}</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-title">Columns</span>
+            <div class="stat-value">{{ result.df_shape[1] }}</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-title">Null Count</span>
+            <div class="stat-value">{{ result.quality.null_count }}</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-title">Duplicate Count</span>
+            <div class="stat-value">{{ result.duplicate.duplicate_count }}</div>
+        </div>
+    </div>
+
+    <!-- CHART SUGGESTIONS (paginated) -->
+    <div class="card">
+        <div class="chart-card-header">
+            <h2>Chart Suggestions</h2>
+            <div class="chart-pagination">
+                <button class="pag-btn" id="pagPrev" onclick="changePage(-1)" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                <span class="pag-info" id="pagInfo">1 / 1</span>
+                <button class="pag-btn" id="pagNext" onclick="changePage(1)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tüm chartlar hidden olarak saklanır, JS sayfalama yapar -->
+        <div id="chartContainer" class="chart-grid" data-cols="1">
+            {% for chart in result.chart %}
+            <div class="chart-box" data-chart-index="{{ loop.index0 }}" style="display:none;">
+                <img src="data:image/png;base64,{{ chart.base64 }}" alt="chart">
+                <p>{{ chart.column }} — {{ chart.type }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if result.chart | length == 0 %}
+        <p class="no-chart-msg">Gösterilecek uygun sütun bulunamadı.</p>
+        {% endif %}
+    </div>
+
+    <!-- DUPLICATE + QUALITY -->
+    <div class="card-grid">
+
+        <!-- Duplicate -->
+        <div class="card">
+            <h2>Duplicate Control</h2>
+            <div class="dup-grid">
+                <div class="dup-item">
+                    <div class="dup-item-label">Total Rows</div>
+                    <div class="dup-item-val">{{ result.duplicate.total_row }}</div>
+                </div>
+                <div class="dup-item">
+                    <div class="dup-item-label">Duplicates</div>
+                    <div class="dup-item-val">{{ result.duplicate.duplicate_count }}</div>
+                </div>
+                <div class="dup-item">
+                    <div class="dup-item-label">Ratio</div>
+                    <div class="dup-item-val">%{{ result.duplicate.duplicate_ratio }}</div>
+                </div>
+            </div>
+            <div class="dup-status">
+                <span class="dup-dot"></span>
+                {{ result.duplicate.status }}
+            </div>
+        </div>
+
+        <!-- Quality Score -->
+        <div class="card quality-card">
+            <h2>Data Quality Score</h2>
+            <div class="quality-body">
+                <div class="ring-wrap">
+                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="ring-track" cx="60" cy="60" r="54"/>
+                        <circle class="ring-fill" id="scoreRing" cx="60" cy="60" r="54"/>
+                    </svg>
+                    <div class="ring-center">
+                        <span class="ring-score">{{ result.quality.score }}</span>
+                        <span class="ring-label-text">/ 100</span>
+                    </div>
+                </div>
+
+                <div class="quality-details">
+                    <span class="badge
+                        {% if result.quality.label == 'Excellent' %}badge-excellent
+                        {% elif result.quality.label == 'Good' %}badge-good
+                        {% elif result.quality.label == 'Medium' %}badge-medium
+                        {% else %}badge-poor{% endif %}
+                    ">{{ result.quality.label }}</span>
+
+                    <div class="info-list">
+                        <p><strong>Null Count</strong> <span class="info-val">{{ result.quality.null_count }}</span></p>
+                        <p><strong>Null Ratio</strong> <span class="info-val">%{{ result.quality.null_ratio }}</span></p>
+                        <p><strong>Null Penalty</strong> <span class="info-val">{{ result.quality.null_score }}</span></p>
+                        <p><strong>Duplicate Penalty</strong> <span class="info-val">{{ result.quality.duplicate_score }}</span></p>
+                        <p><strong>Empty Columns</strong> <span class="info-val">{{ result.quality.empty_column_count }}</span></p>
+                        <p><strong>Empty Penalty</strong> <span class="info-val">{{ result.quality.empty_score }}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEAD -->
+    <div class="card">
+        <h2>Dataset Head</h2>
+        <div class="table-wrapper">{{ result.head | safe }}</div>
+    </div>
+
+    <!-- TAIL -->
+    <div class="card">
+        <h2>Dataset Tail</h2>
+        <div class="table-wrapper">{{ result.tail | safe }}</div>
+    </div>
+
+    <!-- MISSING + DTYPES -->
+    <div class="bottom-section">
+        <div class="box">
+            <h3>Missing Values</h3>
+            {% for row in result.isnull %}
+            <div class="mini-row">
+                <span>{{ row["index"] }}</span>
+                <span>{{ row["Missing Count"] }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="box">
+            <h3>Data Types</h3>
+            {% for row in result.dtypes %}
+            <div class="mini-row">
+                <span>{{ row["index"] }}</span>
+                <span>{{ row["Data Type"] }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="back-area">
+        <a href="/" class="back-button">Upload Another File</a>
+    </div>
+
+</div>
+
+<script>
+(function () {
+    // ── Score Ring ──
+    var score = parseFloat("{{ result.quality.score }}") || 0;
+    var clamp = Math.min(Math.max(score, 0), 100);
+    var circumference = 2 * Math.PI * 54;
+    var offset = circumference * (1 - clamp / 100);
+
+    function scoreColor(s) {
+        if (s >= 80) return "#639922";
+        if (s >= 60) return "#BA7517";
+        if (s >= 40) return "#E24B4A";
+        return "#A32D2D";
+    }
+
+    var ring = document.getElementById('scoreRing');
+    if (ring) {
+        ring.style.stroke = scoreColor(clamp);
+        requestAnimationFrame(function () {
+            setTimeout(function () {
+                ring.style.strokeDashoffset = offset;
+            }, 80);
+        });
+    }
+
+    // ── Chart Pagination ──
+    var PAGE_SIZE = 4;
+    var currentPage = 0;
+
+    var container = document.getElementById('chartContainer');
+    var allCharts = container ? Array.from(container.querySelectorAll('.chart-box')) : [];
+    var totalCharts = allCharts.length;
+    var totalPages = totalCharts > 0 ? Math.ceil(totalCharts / PAGE_SIZE) : 1;
+
+    function getPageCharts(page) {
+        var start = page * PAGE_SIZE;
+        var end = Math.min(start + PAGE_SIZE, totalCharts);
+        return allCharts.slice(start, end);
+    }
+
+    function getGridCols(count) {
+        // count: 1→1col, 2→2col, 3→2col (son 3), 4→2col (2x2)
+        if (count === 1) return 1;
+        return 2;
+    }
+
+    function renderPage(page) {
+        // Hepsini gizle
+        allCharts.forEach(function(c) { c.style.display = 'none'; });
+
+        var pageCharts = getPageCharts(page);
+        var count = pageCharts.length;
+
+        // Grid sütun sayısını ayarla
+        var cols = getGridCols(count);
+        container.setAttribute('data-cols', cols);
+        container.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
+
+        // Sayfadakileri göster
+        pageCharts.forEach(function(c) { c.style.display = 'flex'; });
+
+        // Sayfalama bilgisi
+        document.getElementById('pagInfo').textContent = (page + 1) + ' / ' + totalPages;
+        document.getElementById('pagPrev').disabled = page === 0;
+        document.getElementById('pagNext').disabled = page === totalPages - 1;
+    }
+
+    window.changePage = function(dir) {
+        var next = currentPage + dir;
+        if (next < 0 || next >= totalPages) return;
+        currentPage = next;
+        renderPage(currentPage);
+    };
+
+    // İlk render
+    if (totalCharts > 0) {
+        renderPage(0);
+    }
+})();
+</script>
 </body>
 </html>

@@ -1,193 +1,240 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+:root {
+    --blue-50: #E6F1FB;
+    --blue-100: #B5D4F4;
+    --blue-200: #85B7EB;
+    --blue-400: #378ADD;
+    --blue-600: #185FA5;
+    --blue-800: #0C447C;
+    --blue-900: #042C53;
+    --green-50: #EAF3DE;
+    --green-400: #639922;
+    --green-600: #3B6D11;
+    --amber-50: #FAEEDA;
+    --amber-400: #BA7517;
+    --amber-600: #854F0B;
+    --red-50: #FCEBEB;
+    --red-400: #E24B4A;
+    --red-600: #A32D2D;
+    --teal-50: #E1F5EE;
+    --teal-400: #1D9E75;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #eef2f7, #f8fafc);
-    color: #1f2937;
-    padding: 30px 20px;
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #e8f4fd 0%, #d0eaf8 40%, #c5e3f5 100%);
     min-height: 100vh;
+    color: #0d3461;
+    padding: 40px 20px 60px;
 }
 
 .container {
-    max-width: 1250px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* ─── Başlık ─────────────────────────────────────── */
-h1 {
-    font-size: 32px;
-    margin-bottom: 8px;
-    color: #111827;
-}
-
-h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #1f2937;
-}
-
-h3 {
-    font-size: 15px;
-    margin-bottom: 12px;
-    color: #1f2937;
-    font-weight: 700;
-}
-
+/* ── HEADER ── */
 .page-header {
-    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 36px;
 }
 
-.subtitle {
-    margin-top: 8px;
-    color: #6b7280;
-    font-size: 15px;
+.header-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(145deg, #2196f3, #1565c0);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(33, 150, 243, 0.35);
+    flex-shrink: 0;
 }
 
-/* ─── Üst İstatistik Kutuları ────────────────────── */
+.header-icon svg {
+    width: 28px;
+    height: 28px;
+    fill: white;
+}
+
+.page-header h1 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #0d3461;
+    letter-spacing: -0.5px;
+}
+
+.page-header .subtitle {
+    font-size: 14px;
+    color: #2979c4;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* ── STAT BOXES ── */
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 16px;
     margin-bottom: 24px;
 }
 
 .stat-box {
-    background: #ffffff;
+    background: #fff;
     border-radius: 16px;
-    padding: 22px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-    border: 1px solid #e5e7eb;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 22px 24px;
+    border: 1px solid rgba(33, 150, 243, 0.15);
+    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .stat-box:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 10px 28px rgba(33, 150, 243, 0.15);
 }
 
 .stat-title {
     display: block;
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 10px;
+    font-size: 11px;
+    color: #2979c4;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.8px;
     font-weight: 600;
+    margin-bottom: 10px;
 }
 
 .stat-value {
-    font-size: 34px;
-    font-weight: bold;
-    color: #111827;
+    font-size: 36px;
+    font-weight: 700;
+    color: #0d3461;
     line-height: 1;
 }
 
-/* ─── Genel Kart ─────────────────────────────────── */
+/* ── CARD ── */
 .card {
-    background: #ffffff;
-    padding: 24px;
+    background: #fff;
     border-radius: 18px;
-    margin-bottom: 24px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-    border: 1px solid #e5e7eb;
+    padding: 26px 28px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(33, 150, 243, 0.12);
+    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.08);
 }
 
-/* ─── Kart Grid (Duplicate ve Quality) ───────────── */
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
-    margin-bottom: 24px;
+.card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0d3461;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* ─── Kalite Kartı ───────────────────────────────── */
-.quality-card {
-    border: 1px solid #dbeafe;
-    background: linear-gradient(135deg, #f8fbff, #eef6ff);
+.card h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background: var(--blue-400);
+    border-radius: 2px;
 }
 
-.quality-score {
-    font-size: 52px;
-    font-weight: bold;
-    margin: 10px 0 16px 0;
-    color: #111827;
-    line-height: 1;
+/* ── CHART CARD HEADER (title + pagination side by side) ── */
+.chart-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
 }
 
-.info-list {
-    margin-top: 12px;
-}
-
-.info-list p {
-    margin-bottom: 10px;
-    line-height: 1.6;
-    color: #374151;
-    font-size: 14px;
-}
-
-.info-list p:last-child {
+.chart-card-header h2 {
     margin-bottom: 0;
 }
 
-/* ─── Kalite Etiketleri ──────────────────────────── */
-.label {
-    display: inline-block;
-    padding: 5px 13px;
-    border-radius: 999px;
+/* ── PAGINATION ── */
+.chart-pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pag-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(33, 150, 243, 0.3);
+    background: var(--blue-50);
+    color: var(--blue-600);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.pag-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+}
+
+.pag-btn:hover:not(:disabled) {
+    background: var(--blue-400);
+    border-color: var(--blue-400);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.pag-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.pag-info {
     font-size: 13px;
     font-weight: 700;
-    margin-left: 6px;
+    color: var(--blue-800);
+    min-width: 48px;
+    text-align: center;
+    letter-spacing: 0.3px;
 }
 
-.label-excellent {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.label-good {
-    background: #dbeafe;
-    color: #1d4ed8;
-}
-
-.label-medium {
-    background: #fef3c7;
-    color: #b45309;
-}
-
-.label-poor {
-    background: #fee2e2;
-    color: #b91c1c;
-}
-
-/* ─── Chart Grid ─────────────────────────────────── */
+/* ── CHART GRID (dynamic columns via JS) ── */
 .chart-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-top: 8px;
+    grid-template-columns: repeat(2, 1fr); /* default, JS overrides */
+    gap: 16px;
 }
 
 .chart-box {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
+    background: var(--blue-50);
+    border: 1px solid rgba(33, 150, 243, 0.15);
     border-radius: 14px;
-    padding: 16px;
+    padding: 14px;
     text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .chart-box:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 8px 24px rgba(33, 150, 243, 0.12);
 }
 
 .chart-box img {
     width: 100%;
-    max-width: 400px;
+    max-width: 480px;
     height: auto;
     border-radius: 10px;
     display: block;
@@ -196,95 +243,276 @@ h3 {
 
 .chart-box p {
     margin-top: 10px;
-    font-size: 13px;
-    color: #6b7280;
+    font-size: 12.5px;
+    color: #2979c4;
     font-weight: 500;
-    text-transform: capitalize;
 }
 
-/* ─── Tablo ──────────────────────────────────────── */
+.no-chart-msg {
+    text-align: center;
+    color: #90a4ae;
+    font-size: 14px;
+    padding: 24px 0;
+}
+
+/* ── CARD GRID ── */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* ── SCORE RING ── */
+.quality-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.quality-body {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.ring-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+}
+
+.ring-wrap svg {
+    width: 140px;
+    height: 140px;
+    transform: rotate(-90deg);
+}
+
+.ring-track {
+    fill: none;
+    stroke: #e8f0fb;
+    stroke-width: 12;
+}
+
+.ring-fill {
+    fill: none;
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 339.3;
+    stroke-dashoffset: 339.3;
+    transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.6s;
+}
+
+.ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ring-score {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0d3461;
+    line-height: 1;
+}
+
+.ring-label-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: #2979c4;
+    margin-top: 2px;
+}
+
+.quality-details {
+    flex: 1;
+}
+
+.quality-details .badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.badge-excellent { background: #EAF3DE; color: #27500A; }
+.badge-good      { background: #E6F1FB; color: #0C447C; }
+.badge-medium    { background: #FAEEDA; color: #633806; }
+.badge-poor      { background: #FCEBEB; color: #791F1F; }
+
+.info-list p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13.5px;
+    color: #2979c4;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(33, 150, 243, 0.08);
+}
+
+.info-list p:last-child {
+    border-bottom: none;
+}
+
+.info-list p strong {
+    color: #0d3461;
+    font-weight: 600;
+}
+
+.info-val {
+    background: var(--blue-50);
+    color: var(--blue-800);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ── DUPLICATE CARD ── */
+.dup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.dup-item {
+    background: var(--blue-50);
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.dup-item-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue-600);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.dup-item-val {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--blue-900);
+    margin-top: 4px;
+}
+
+.dup-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--teal-50);
+    color: var(--teal-400);
+}
+
+.dup-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--teal-400);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* ── TABLE ── */
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
     border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid rgba(33, 150, 243, 0.15);
 }
 
 table {
     border-collapse: collapse;
     width: 100%;
-    min-width: 750px;
-    background: #ffffff;
+    min-width: 700px;
+    background: #fff;
 }
 
 table th {
-    background: #f3f4f6;
-    color: #111827;
+    background: var(--blue-50);
+    color: var(--blue-800);
     font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 13px 15px;
     position: sticky;
     top: 0;
     z-index: 1;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-}
-
-table th,
-table td {
-    border-bottom: 1px solid #e5e7eb;
-    padding: 12px 14px;
-    text-align: left;
-    font-size: 14px;
-}
-
-table tr:nth-child(even) {
-    background: #fafafa;
-}
-
-table tr:hover {
-    background: #f0f7ff;
 }
 
 table td {
-    max-width: 240px;
+    padding: 11px 15px;
+    font-size: 13.5px;
+    color: #1a3a5c;
+    border-bottom: 1px solid rgba(33, 150, 243, 0.08);
+    max-width: 220px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #374151;
 }
 
-/* ─── Alt Bölüm (Missing + Data Types) ──────────── */
+table tr:nth-child(even) td {
+    background: #f7fbff;
+}
+
+table tr:hover td {
+    background: var(--blue-50);
+}
+
+/* ── BOTTOM SECTION ── */
 .bottom-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .box {
-    background: #ffffff;
+    background: #fff;
     border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-    border: 1px solid #e5e7eb;
-    max-height: 240px;
+    padding: 20px;
+    border: 1px solid rgba(33, 150, 243, 0.12);
+    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.07);
+    max-height: 260px;
     overflow-y: auto;
 }
 
 .box h3 {
-    margin-bottom: 12px;
-    font-size: 15px;
-    color: #111827;
+    font-size: 14px;
     font-weight: 700;
+    color: #0d3461;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.box h3::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 14px;
+    background: var(--blue-400);
+    border-radius: 2px;
 }
 
 .mini-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 6px;
+    padding: 7px 4px;
     font-size: 13px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid rgba(33, 150, 243, 0.07);
 }
 
 .mini-row:last-child {
@@ -293,43 +521,44 @@ table td {
 
 .mini-row span:first-child {
     font-weight: 600;
-    color: #1f2937;
+    color: #0d3461;
 }
 
 .mini-row span:last-child {
-    color: #6b7280;
-    background: #f3f4f6;
+    background: var(--blue-50);
+    color: var(--blue-800);
     padding: 2px 10px;
     border-radius: 999px;
     font-size: 12px;
+    font-weight: 600;
 }
 
-/* ─── Geri Butonu ────────────────────────────────── */
+/* ── BACK BUTTON ── */
 .back-area {
-    margin-top: 10px;
     text-align: center;
-    padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 .back-button {
     display: inline-block;
     text-decoration: none;
-    background: #111827;
+    background: linear-gradient(135deg, #1565c0, #2196f3);
     color: white;
-    padding: 13px 28px;
+    padding: 13px 32px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.3px;
-    transition: background 0.2s ease, transform 0.2s ease;
+    letter-spacing: 0.2px;
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .back-button:hover {
-    background: #374151;
     transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(33, 150, 243, 0.45);
 }
 
-/* ─── Scrollbar (Webkit) ─────────────────────────── */
+/* ── SCROLLBAR ── */
 .box::-webkit-scrollbar,
 .table-wrapper::-webkit-scrollbar {
     width: 5px;
@@ -338,51 +567,23 @@ table td {
 
 .box::-webkit-scrollbar-track,
 .table-wrapper::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: #e8f4fd;
     border-radius: 999px;
 }
 
 .box::-webkit-scrollbar-thumb,
 .table-wrapper::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: #90caf9;
     border-radius: 999px;
 }
 
-/* ─── Mobil ──────────────────────────────────────── */
+/* ── MOBILE ── */
 @media (max-width: 768px) {
-    body {
-        padding: 20px 12px;
-    }
-
-    h1 {
-        font-size: 26px;
-    }
-
-    h2 {
-        font-size: 18px;
-    }
-
-    .card,
-    .stat-box,
-    .box {
-        padding: 16px;
-    }
-
-    table th,
-    table td {
-        font-size: 13px;
-        padding: 10px 12px;
-    }
-
-    .bottom-section {
-        grid-template-columns: 1fr;
-    }
-
-    .quality-score {
-        font-size: 42px;
-    }
-
-    .chart-grid {
-        grid-template-columns: 1fr;
-    }
+    body { padding: 20px 12px 40px; }
+    .page-header h1 { font-size: 26px; }
+    .chart-grid { grid-template-columns: 1fr !important; }
+    .bottom-section { grid-template-columns: 1fr; }
+    .quality-body { flex-direction: column; }
+    .dup-grid { grid-template-columns: 1fr; }
+    .chart-card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
 }

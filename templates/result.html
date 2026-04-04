@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dataset Analysis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -51,39 +51,38 @@
         <div class="chart-card-header">
             <h2>Chart Suggestions</h2>
             <div class="chart-pagination">
-                <button class="pag-btn" id="pagPrev" onclick="changePage(-1)" disabled>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <button class="pag-btn" id="pagPrev" onclick="changePage(-1)" disabled aria-label="Previous page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"/>
                     </svg>
                 </button>
                 <span class="pag-info" id="pagInfo">1 / 1</span>
-                <button class="pag-btn" id="pagNext" onclick="changePage(1)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <button class="pag-btn" id="pagNext" onclick="changePage(1)" aria-label="Next page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="9 18 15 12 9 6"/>
                     </svg>
                 </button>
             </div>
         </div>
 
-        <!-- Tüm chartlar hidden olarak saklanır, JS sayfalama yapar -->
-        <div id="chartContainer" class="chart-grid" data-cols="1">
+        <div id="chartContainer" class="chart-grid">
             {% for chart in result.chart %}
-            <div class="chart-box" data-chart-index="{{ loop.index0 }}" style="display:none;">
-                <img src="data:image/png;base64,{{ chart.base64 }}" alt="chart">
+            <div class="chart-box" data-chart-index="{{ loop.index0 }}">
+                <img src="data:image/png;base64,{{ chart.base64 }}" alt="{{ chart.column }} {{ chart.type }} chart" loading="lazy">
                 <p>{{ chart.column }} — {{ chart.type }}</p>
             </div>
             {% endfor %}
         </div>
 
         {% if result.chart | length == 0 %}
-        <p class="no-chart-msg">Gösterilecek uygun sütun bulunamadı.</p>
+        <p class="no-chart-msg">No suitable columns found for chart generation.</p>
         {% endif %}
     </div>
 
     <!-- DUPLICATE + QUALITY -->
     <div class="card-grid">
 
-        <!-- Duplicate -->
+        <!-- Duplicate Control -->
         <div class="card">
             <h2>Duplicate Control</h2>
             <div class="dup-grid">
@@ -106,7 +105,7 @@
             </div>
         </div>
 
-        <!-- Quality Score -->
+        <!-- Data Quality Score -->
         <div class="card quality-card">
             <h2>Data Quality Score</h2>
             <div class="quality-body">
@@ -130,31 +129,58 @@
                     ">{{ result.quality.label }}</span>
 
                     <div class="info-list">
-                        <p><strong>Null Count</strong> <span class="info-val">{{ result.quality.null_count }}</span></p>
-                        <p><strong>Null Ratio</strong> <span class="info-val">%{{ result.quality.null_ratio }}</span></p>
-                        <p><strong>Null Penalty</strong> <span class="info-val">{{ result.quality.null_score }}</span></p>
-                        <p><strong>Duplicate Penalty</strong> <span class="info-val">{{ result.quality.duplicate_score }}</span></p>
-                        <p><strong>Empty Columns</strong> <span class="info-val">{{ result.quality.empty_column_count }}</span></p>
-                        <p><strong>Empty Penalty</strong> <span class="info-val">{{ result.quality.empty_score }}</span></p>
+                        <p><strong>Null Count</strong>      <span class="info-val">{{ result.quality.null_count }}</span></p>
+                        <p><strong>Null Ratio</strong>      <span class="info-val">%{{ result.quality.null_ratio }}</span></p>
+                        <p><strong>Null Penalty</strong>    <span class="info-val">{{ result.quality.null_score }}</span></p>
+                        <p><strong>Dup. Penalty</strong>    <span class="info-val">{{ result.quality.duplicate_score }}</span></p>
+                        <p><strong>Empty Columns</strong>   <span class="info-val">{{ result.quality.empty_column_count }}</span></p>
+                        <p><strong>Empty Penalty</strong>   <span class="info-val">{{ result.quality.empty_score }}</span></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- HEAD -->
+    <!-- DATASET INFO -->
     <div class="card">
-        <h2>Dataset Head</h2>
-        <div class="table-wrapper">{{ result.head | safe }}</div>
+        <h2>Dataset Info</h2>
+        <div class="table-wrapper">
+            {%- if result.df_info and result.df_info != 'None' -%}
+                {{ result.df_info | safe }}
+            {%- else -%}
+                <p class="no-chart-msg">No info available.</p>
+            {%- endif -%}
+        </div>
     </div>
 
-    <!-- TAIL -->
+    <!-- DATASET DESCRIBE -->
     <div class="card">
-        <h2>Dataset Tail</h2>
-        <div class="table-wrapper">{{ result.tail | safe }}</div>
+        <h2>Dataset Describe</h2>
+        <div class="table-wrapper">
+            {%- if result.df_describe -%}
+                {{ result.df_describe | safe }}
+            {%- else -%}
+                <p class="no-chart-msg">No describe data available.</p>
+            {%- endif -%}
+        </div>
     </div>
 
-    <!-- MISSING + DTYPES -->
+    <!-- DATA PREVIEW (TABS) -->
+    <div class="card">
+        <div class="card-header-tabs">
+            <button class="tab-btn active" onclick="openPreviewTab(event, 'headTab')">Dataset Head</button>
+            <button class="tab-btn" onclick="openPreviewTab(event, 'tailTab')">Dataset Tail</button>
+        </div>
+        
+        <div id="headTab" class="tab-content active" style="display: block;">
+            <div class="table-wrapper">{{ result.head | safe }}</div>
+        </div>
+        <div id="tailTab" class="tab-content" style="display: none;">
+            <div class="table-wrapper">{{ result.tail | safe }}</div>
+        </div>
+    </div>
+
+    <!-- MISSING VALUES + DATA TYPES -->
     <div class="bottom-section">
         <div class="box">
             <h3>Missing Values</h3>
@@ -184,11 +210,12 @@
 
 <script>
 (function () {
-    // ── Score Ring ──
+    /* ── Score Ring ── */
     var score = parseFloat("{{ result.quality.score }}") || 0;
     var clamp = Math.min(Math.max(score, 0), 100);
-    var circumference = 2 * Math.PI * 54;
-    var offset = circumference * (1 - clamp / 100);
+    // circumference = 2 * π * r = 2 * π * 54 ≈ 339.292
+    var CIRCUMFERENCE = 2 * Math.PI * 54;
+    var offset = CIRCUMFERENCE * (1 - clamp / 100);
 
     function scoreColor(s) {
         if (s >= 80) return "#639922";
@@ -200,66 +227,90 @@
     var ring = document.getElementById('scoreRing');
     if (ring) {
         ring.style.stroke = scoreColor(clamp);
+        // Animate after paint
         requestAnimationFrame(function () {
             setTimeout(function () {
                 ring.style.strokeDashoffset = offset;
-            }, 80);
+            }, 100);
         });
     }
 
-    // ── Chart Pagination ──
+    /* ── Chart Pagination ── */
     var PAGE_SIZE = 4;
     var currentPage = 0;
 
     var container = document.getElementById('chartContainer');
-    var allCharts = container ? Array.from(container.querySelectorAll('.chart-box')) : [];
+    var allCharts = container
+        ? Array.from(container.querySelectorAll('.chart-box'))
+        : [];
     var totalCharts = allCharts.length;
-    var totalPages = totalCharts > 0 ? Math.ceil(totalCharts / PAGE_SIZE) : 1;
-
-    function getPageCharts(page) {
-        var start = page * PAGE_SIZE;
-        var end = Math.min(start + PAGE_SIZE, totalCharts);
-        return allCharts.slice(start, end);
-    }
+    var totalPages  = totalCharts > 0 ? Math.ceil(totalCharts / PAGE_SIZE) : 1;
 
     function getGridCols(count) {
-        // count: 1→1col, 2→2col, 3→2col (son 3), 4→2col (2x2)
-        if (count === 1) return 1;
-        return 2;
+        return count === 1 ? 1 : 2;
     }
 
     function renderPage(page) {
-        // Hepsini gizle
-        allCharts.forEach(function(c) { c.style.display = 'none'; });
+        var start = page * PAGE_SIZE;
+        var end   = Math.min(start + PAGE_SIZE, totalCharts);
 
-        var pageCharts = getPageCharts(page);
-        var count = pageCharts.length;
+        allCharts.forEach(function (c, i) {
+            if (i >= start && i < end) {
+                c.style.display = 'flex';
+            } else {
+                c.style.display = 'none';
+            }
+        });
 
-        // Grid sütun sayısını ayarla
-        var cols = getGridCols(count);
-        container.setAttribute('data-cols', cols);
+        var visibleCount = end - start;
+        var cols = getGridCols(visibleCount);
         container.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
 
-        // Sayfadakileri göster
-        pageCharts.forEach(function(c) { c.style.display = 'flex'; });
-
-        // Sayfalama bilgisi
-        document.getElementById('pagInfo').textContent = (page + 1) + ' / ' + totalPages;
-        document.getElementById('pagPrev').disabled = page === 0;
-        document.getElementById('pagNext').disabled = page === totalPages - 1;
+        document.getElementById('pagInfo').textContent =
+            (page + 1) + ' / ' + totalPages;
+        document.getElementById('pagPrev').disabled = (page === 0);
+        document.getElementById('pagNext').disabled = (page === totalPages - 1);
     }
 
-    window.changePage = function(dir) {
+    window.changePage = function (dir) {
         var next = currentPage + dir;
         if (next < 0 || next >= totalPages) return;
         currentPage = next;
         renderPage(currentPage);
     };
 
-    // İlk render
     if (totalCharts > 0) {
         renderPage(0);
+    } else {
+        // Hide pagination if no charts
+        var pagEl = document.querySelector('.chart-pagination');
+        if (pagEl) pagEl.style.display = 'none';
     }
+
+    /* ── Data Preview Tabs ── */
+    window.openPreviewTab = function(evt, tabName) {
+        var i, tabcontent, tablinks;
+        
+        // Hide all tab contents
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+        
+        // Remove 'active' class from all buttons
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        
+        // Show current tab, add active class
+        var tgt = document.getElementById(tabName);
+        tgt.style.display = "block";
+        setTimeout(function(){ tgt.classList.add("active"); }, 10);
+        
+        evt.currentTarget.classList.add("active");
+    };
 })();
 </script>
 </body>
